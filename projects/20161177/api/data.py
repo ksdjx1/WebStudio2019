@@ -12,7 +12,7 @@ class User(db.Model):
 	nickname = db.Column(db.String(300))
 	password = db.Column(db.String(300))
 
-	def __init(self, email, password, nickname):
+	def __init__(self, email, password, nickname):
 		self.email = email
 		self.set_password(password)
 		self.nickname = nickname

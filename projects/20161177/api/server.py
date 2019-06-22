@@ -16,12 +16,17 @@ api = Api(app)
 db.init_app(app)
 #socketio = MySocketIO(app)
 
+def serializer(l):
+	ret = []
+	for row in l:
+		ret.append(json.loads(row.serialize()))
+	return ret
 
 class Userlist(Resource):
 	
 	def get(self):
 		users = User.query.all()
-		return users
+		return serializer(users)
 
 	def post(self):
 		r_json = request.get_json()
@@ -39,6 +44,7 @@ class Userlist(Resource):
 	def delete(self):
 		r_json = request.get_json()
 		_id = r_json['id']
+		user = User.query.filter_by(id=_id).first()
 		db.session.delete(user)
 		db.session.commit()
 		return 'your account has been deleted'
